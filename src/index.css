@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  :root {
+    --font-orbitron: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+    --font-rajdhani: 'Rajdhani', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --background: 222 47% 6%;
+    --foreground: 180 100% 96%;
+    --card: 222 40% 9%;
+    --card-foreground: 180 100% 96%;
+    --popover: 222 40% 9%;
+    --popover-foreground: 180 100% 96%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 222 47% 6%;
+    --secondary: 280 100% 70%;
+    --secondary-foreground: 222 47% 6%;
+    --muted: 222 25% 18%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 320 100% 65%;
+    --accent-foreground: 222 47% 6%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 180 100% 50%;
+    --radius: 0.375rem;
+    --chart-1: 180 100% 50%;
+    --chart-2: 280 100% 70%;
+    --chart-3: 320 100% 65%;
+    --chart-4: 200 90% 55%;
+    --chart-5: 260 85% 60%;
+    --sidebar-background: 222 40% 8%;
+    --sidebar-foreground: 180 100% 96%;
+    --sidebar-primary: 180 100% 50%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 222 30% 15%;
+    --sidebar-accent-foreground: 180 100% 96%;
+    --sidebar-border: 222 30% 18%;
+    --sidebar-ring: 180 100% 50%;
+  }
+}
+
+@layer utilities {
+  .neon-text {
+    text-shadow:
+      0 0 10px hsl(var(--primary) / 0.8),
+      0 0 40px hsl(var(--primary) / 0.4);
+  }
+  .neon-text-pink {
+    text-shadow:
+      0 0 8px hsl(var(--accent) / 0.7),
+      0 0 24px hsl(var(--accent) / 0.35);
+  }
+  .neon-text-purple {
+    text-shadow:
+      0 0 8px hsl(var(--secondary) / 0.7),
+      0 0 24px hsl(var(--secondary) / 0.35);
+  }
+  .cyber-card {
+    @apply border border-border/60 bg-card/40 backdrop-blur-sm;
+    box-shadow:
+      inset 0 1px 0 hsl(var(--primary) / 0.08),
+      0 0 0 1px hsl(var(--primary) / 0.05);
+  }
+  .hud-corner {
+    position: relative;
+  }
+  .hud-corner::before,
+  .hud-corner::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: hsl(var(--primary) / 0.35);
+    pointer-events: none;
+  }
+  .hud-corner::before {
+    top: 0;
+    left: 0;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+  .hud-corner::after {
+    bottom: 0;
+    right: 0;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+  /* Do NOT set pointer-events: none on the wrapper — it prevents children (links, buttons)
+     from receiving clicks in WebKit/Safari. Only the decorative layer ignores pointers. */
+  .scanline-overlay::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--foreground) / 0.02) 2px,
+      hsl(var(--foreground) / 0.02) 4px
+    );
+    /* Below nav (z-50) so the bar stays interactive; still above base content */
+    z-index: 40;
+    pointer-events: none;
+  }
+
+  /* RGB split + hue flicker on hover (portfolio body copy, nav, cards) */
+  .hover-glitch-text {
+    transition:
+      transform 0.15s ease,
+      filter 0.15s ease;
+  }
+  .hover-glitch-text:hover {
+    animation: hover-glitch-cycle 0.45s steps(2, jump-end) infinite;
+  }
+  @keyframes hover-glitch-cycle {
+    0% {
+      color: hsl(var(--primary));
+      text-shadow:
+        2px 0 hsl(320 100% 65% / 0.95),
+        -2px 0 hsl(180 100% 50% / 0.75);
+      transform: translate(0, 0);
+      filter: hue-rotate(0deg) saturate(1.15);
+    }
+    33% {
+      color: hsl(var(--accent));
+      text-shadow:
+        -3px 0 hsl(280 100% 72% / 0.9),
+        2px 1px hsl(200 95% 58% / 0.85);
+      transform: translate(-1px, 0.5px);
+      filter: hue-rotate(35deg) saturate(1.35);
+    }
+    66% {
+      color: hsl(var(--secondary));
+      text-shadow:
+        3px -1px hsl(180 100% 55% / 0.9),
+        -2px 0 hsl(320 100% 68% / 0.8);
+      transform: translate(1px, -0.5px);
+      filter: hue-rotate(-25deg) saturate(1.25);
+    }
+    100% {
+      color: hsl(var(--primary));
+      text-shadow:
+        1px 0 hsl(320 100% 65% / 0.85),
+        -1px 0 hsl(180 100% 50% / 0.7);
+      transform: translate(0, 0);
+      filter: hue-rotate(12deg) saturate(1.2);
+    }
+  }
+}
